@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "react-app",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "90"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "react-hot-loader/babel"
+  ]
+}

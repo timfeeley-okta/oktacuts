@@ -1,0 +1,51 @@
+{
+  "action": {
+    "default_icon": "icon-48.png",
+    "default_popup": "popup.html"
+  },
+  "author": "Tim Feeley <tim.feeley@okta.com>",
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "contentScript.bundle.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "<all_urls>"
+      ]
+    }
+  ],
+  "homepage_url": "https://github.com/timfeeley-okta/oktacuts",
+  "host_permissions": [
+    "<all_urls>",
+    "*://*/*"
+  ],
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "manifest_version": 3,
+  "minimum_chrome_version": "90",
+  "name": "Oktacuts URL shortener",
+  "permissions": [
+    "declarativeNetRequest",
+    "activeTab"
+  ],
+  "short_name": "Oktacuts",
+  "version": "1.0.0",
+  "web_accessible_resources": [
+    {
+      "matches": [],
+      "resources": [
+        "icon-128.png",
+        "icon-48.png",
+        "icon-16.png"
+      ]
+    }
+  ]
+}

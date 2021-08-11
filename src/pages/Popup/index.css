@@ -1,0 +1,10 @@
+body {
+  width: 500px;
+  height: 660px;
+  margin: 0;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  position: relative;
+}
