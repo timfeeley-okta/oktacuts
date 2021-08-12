@@ -51,7 +51,7 @@ var options = {
       { test: /\.(ts|tsx)$/, loader: 'ts-loader', exclude: /node_modules/ },
       {
         test: /\.(js|jsx)$/,
-        use: ['source-map-loader', 'babel-loader'],
+        use: ['babel-loader'],
         exclude: /node_modules/,
       },
     ],
@@ -77,7 +77,7 @@ var options = {
           from: 'src/manifest.json',
           to: path.join(__dirname, 'build'),
           force: true,
-          transform: function (content, path) {
+          transform: function (content) {
             return Buffer.from(
               JSON.stringify({
                 description: process.env.npm_package_description,
