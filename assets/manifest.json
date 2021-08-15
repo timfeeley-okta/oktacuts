@@ -4,13 +4,10 @@
     "default_popup": "popup.html"
   },
   "author": "Tim Feeley <tim.feeley@okta.com>",
-  "background": {
-    "service_worker": "background.bundle.js"
-  },
   "content_scripts": [
     {
       "js": [
-        "contentScript.bundle.js"
+        "content_script.js"
       ],
       "matches": [
         "http://*/*",
