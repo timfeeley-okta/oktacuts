@@ -4,11 +4,15 @@
     "node_modules",
     "dist"
   ],
-  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
   "plugins": [
     "react"
   ],
   "parserOptions": {
+    "ecmaVersion": 2020,
     "ecmaFeatures": {
       "jsx": true
     }
@@ -32,6 +36,7 @@
       "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier"
       ],
@@ -41,7 +46,8 @@
       "rules": {
         "react/prop-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off"
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/ban-types": "off"
       }
     }
   ]

@@ -1,17 +1,4 @@
-# dependencies
-/node_modules
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
+node_modules
+build
+dist
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.history
-build.zip
