@@ -1,7 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from './Store'
 
-export { default as OktaApp, OktaAppType } from './OktaApps'
+export { default as OktaApp, OktaAppType } from './Apps'
 export * from './Rules'
 export * from './Store'
 

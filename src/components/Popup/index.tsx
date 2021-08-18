@@ -31,7 +31,11 @@ const Popup: FC = () => {
     ],
     []
   )
-  const data = useMemo(() => rules, [rules])
+
+  const data = useMemo(() => {
+    console.log('New rules', rules)
+    return rules
+  }, [rules])
 
   return <>{rules && <Table data={data} columns={columns} />}</>
 }
