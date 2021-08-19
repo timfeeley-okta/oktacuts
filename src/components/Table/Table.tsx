@@ -4,7 +4,7 @@ import { Rule } from '@/state/Rules'
 
 const Table: FC<{
   columns: Column[]
-  data: Rule[]
+  data: any
 }> = ({ columns, data }) => {
   const { getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
     {

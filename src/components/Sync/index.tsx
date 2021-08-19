@@ -1,16 +1,61 @@
 import { useGetOktaAppsQuery } from '@/state/Apps'
 import { Transition } from '@headlessui/react'
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from '@/state/index'
 import { setUI } from '@/state/UI'
 import { XIcon } from '@heroicons/react/outline'
+import Table, { EditableCell } from '../Table'
+import { Column } from 'react-table'
 const SyncSheet = () => {
-  const ad = useGetOktaAppsQuery()
+  const { data: appsList } = useGetOktaAppsQuery()
   const isShowing = useAppSelector(({ uiState }) => uiState)
   const dispatch = useAppDispatch()
   const closeSheet = () =>
     dispatch(setUI({ uiElement: 'syncSheet', value: false }))
-  useEffect(() => console.log(isShowing), [isShowing])
+
+  const columns = useMemo(
+    (): Column[] => [
+      {
+        Header: 'App Name',
+        accessor: 'label',
+        Cell: function CellRender({ row }) {
+          return (
+            <div className="flex items-center justify-start h-full space-x-3 text-sm">
+              <div
+                className="flex-shrink-0 w-16 h-full bg-center bg-no-repeat bg-contain"
+                style={{
+                  backgroundSize: '60%',
+                  backgroundImage: 'url("' + row.original['logoUrl'] + '")',
+                }}></div>
+              <span className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                {row.original['label']}
+              </span>
+            </div>
+          )
+        },
+        width: 250,
+      },
+      {
+        Header: 'Full URL',
+        accessor: 'url',
+        Cell: EditableCell.bind(false, { placeholder: '<not mapped>' }),
+        width: 150,
+      },
+      {
+        Header: '',
+        Cell: 'X',
+        accessor: 'action',
+        width: 50,
+      },
+    ],
+    []
+  )
+
+  const data = useMemo(() => {
+    console.log(appsList)
+    return appsList
+  }, [appsList])
+
   return (
     <>
       <Transition
@@ -62,8 +107,7 @@ const SyncSheet = () => {
             </div>
             <div className="relative flex-1 px-4 mt-6 sm:px-6">
               <div className="absolute inset-0 px-4 sm:px-6">
-                {ad.data &&
-                  ad.data.map((app) => <span key={app.id}>{app.label}</span>)}
+                {appsList && <Table data={data} columns={columns} />}
               </div>
             </div>
           </div>

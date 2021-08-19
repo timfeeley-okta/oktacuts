@@ -7,6 +7,7 @@ import { useAppDispatch } from '@/state/index'
 import { setUI } from '@/state/UI'
 import { useGetRulesQuery } from '@/state/Rules'
 import SyncSheet from '../Sync'
+import AddModal from '../Table/AddModal'
 
 const Popup: FC = () => {
   const { data: rules } = useGetRulesQuery()
@@ -29,7 +30,7 @@ const Popup: FC = () => {
         Header: AddButton,
         Cell: ActionCell,
         accessor: 'action',
-        width: 100,
+        width: 36,
       },
     ],
     []
@@ -37,8 +38,10 @@ const Popup: FC = () => {
 
   const data = useMemo(() => rules, [rules])
   const dispatch = useAppDispatch()
+
   return (
     <>
+      <AddModal />
       <SyncSheet />
       {
         <button

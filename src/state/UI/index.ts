@@ -4,12 +4,14 @@ import { createSlice } from '@reduxjs/toolkit'
 type UIState = {
   syncSheet: boolean
   aboutModal: boolean
+  addModal: boolean
 }
 
 // Define the initial state using that type
 const initialState: UIState = {
   syncSheet: false,
   aboutModal: false,
+  addModal: false,
 }
 
 const uiSlice = createSlice({

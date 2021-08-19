@@ -5,16 +5,15 @@ import React, {
   useState,
   useEffect,
 } from 'react'
-
-import { Column, Row } from 'react-table'
-import { Rule, useUpdateRuleMutation } from '@/state/Rules'
-
-const EditableCell: FC<{
-  value: any
-  row: Row<Rule>
-  column: Column
-  dispatch: (rowIndex: number, columnId: number, value: string) => Row
-}> = ({ value: initialValue, row, column }) => {
+import { useUpdateRuleMutation } from '../../state/Rules'
+import cx from 'classnames'
+const EditableCell: FC<any> = ({
+  value: initialValue,
+  row,
+  column,
+  className,
+  ...props
+}) => {
   const [value, setValue] = useState(initialValue)
   const [editableValue, setEditableValue] = useState(initialValue)
 
@@ -55,11 +54,15 @@ const EditableCell: FC<{
 
   return (
     <input
-      className="w-full h-full px-6 py-4 font-mono outline-none focus:ring-inset focus:ring"
+      className={cx(
+        'w-full h-full px-4 py-3 font-mono outline-none focus:ring-inset focus:ring',
+        className
+      )}
       value={editableValue}
       onChange={onChange}
       onKeyDown={onKeyDown}
       onBlur={onBlur}
+      {...props}
     />
   )
 }
