@@ -29,5 +29,9 @@ module.exports = {
       patterns: [{ from: './assets' }],
     }),
   ],
-  output: { filename: '[name].js', path: path.resolve(__dirname, 'dist') },
+  output: {
+    filename: '[name].js',
+
+    path: path.resolve(__dirname, 'dist'),
+  },
 }

@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 
 import { Column, Row } from 'react-table'
-import { Rule, useUpdateRuleMutation } from '@/state'
+import { Rule, useUpdateRuleMutation } from '@/state/Rules'
 
 const EditableCell: FC<{
   value: any

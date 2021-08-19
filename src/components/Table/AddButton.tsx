@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { useAddRuleMutation } from '@/state'
+import { useAddRuleMutation } from '@/state/Rules'
 
 const AddButton: FC<any> = ({ data }) => {
   const [addNewRule] = useAddRuleMutation()
@@ -14,7 +14,7 @@ const AddButton: FC<any> = ({ data }) => {
       .then((r) => console.log('Success', r))
       .catch((r) => console.log('Error', r))
   }
-  return <button onClick={onClick}>Delete</button>
+  return <button onClick={onClick}>Add</button>
 }
 
 export default AddButton

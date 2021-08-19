@@ -1,21 +1,20 @@
-// import appsReducer from './OktaApps'
-
-import { rulesApi } from '.'
+import { rulesApi } from './Rules'
+import { appsApi } from './Apps'
+import uiState from './UI'
 
 import { configureStore } from '@reduxjs/toolkit'
-// Or from '@reduxjs/toolkit/query/react'
+
 import { setupListeners } from '@reduxjs/toolkit/query'
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
     [rulesApi.reducerPath]: rulesApi.reducer,
+    [appsApi.reducerPath]: appsApi.reducer,
+    uiState,
   },
-  // Adding the api middleware enables caching, invalidation, polling,
-  // and other useful features of `rtk-query`.
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(rulesApi.middleware),
+    getDefaultMiddleware().concat(rulesApi.middleware, appsApi.middleware),
 })
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

@@ -3,10 +3,13 @@ import React, { FC, useMemo } from 'react'
 import Table, { ActionCell, AddButton, EditableCell } from '../Table'
 import type { Column } from 'react-table'
 
-import { useGetRulesQuery } from '@/state'
+import { useAppDispatch } from '@/state/index'
+import { setUI } from '@/state/UI'
+import { useGetRulesQuery } from '@/state/Rules'
+import SyncSheet from '../Sync'
 
 const Popup: FC = () => {
-  const { data: rules, isLoading, isFetching } = useGetRulesQuery()
+  const { data: rules } = useGetRulesQuery()
 
   const columns = useMemo(
     (): Column[] => [
@@ -32,12 +35,27 @@ const Popup: FC = () => {
     []
   )
 
-  const data = useMemo(() => {
-    console.log('New rules', rules)
-    return rules
-  }, [rules])
+  const data = useMemo(() => rules, [rules])
+  const dispatch = useAppDispatch()
+  return (
+    <>
+      <SyncSheet />
+      {
+        <button
+          onClick={() => {
+            // fetch(
+            //   'https://okta.okta.com/api/v1/users/me/home/tabs?type=all&expand=items%2Citems.resource'
+            // ).then(async (b) => alert(await b.json()))
 
-  return <>{rules && <Table data={data} columns={columns} />}</>
+            dispatch(setUI({ uiElement: 'syncSheet', value: true }))
+          }}>
+          Do it
+        </button>
+      }
+
+      {rules && <Table data={data} columns={columns} />}
+    </>
+  )
 }
 
 export default Popup

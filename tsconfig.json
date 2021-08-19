@@ -20,9 +20,6 @@
     "noEmit": false,
     "jsx": "react",
     "paths": {
-      "@/state": [
-        "./src/state/index.ts"
-      ],
       "@/state/*": [
         "./src/state/*"
       ],

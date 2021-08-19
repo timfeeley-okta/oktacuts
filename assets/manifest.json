@@ -16,9 +16,14 @@
       ]
     }
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' http://localhost:8097/; object-src 'self'"
+  },
   "homepage_url": "https://github.com/timfeeley-okta/oktacuts",
   "host_permissions": [
     "<all_urls>",
+    "http://localhost:8097/*",
+    "file://*",
     "*://*/*"
   ],
   "icons": {

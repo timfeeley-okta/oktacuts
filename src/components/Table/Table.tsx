@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Column, Row, useFlexLayout, useTable } from 'react-table'
-import { Rule } from '../../state'
+import { Rule } from '@/state/Rules'
 
 const Table: FC<{
   columns: Column[]

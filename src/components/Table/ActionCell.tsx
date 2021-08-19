@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 
 import { Column, Row } from 'react-table'
-import { Rule, useDeleteRuleMutation } from '@/state'
+import { useDeleteRuleMutation } from '@/state/Rules'
+import { Rule } from '../../state/Rules'
 
 const ActionCell: FC<{
   value: any
