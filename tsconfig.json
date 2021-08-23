@@ -23,11 +23,14 @@
       "@/state/*": [
         "./src/state/*"
       ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ],
       "@/pages/*": [
         "./pages/*"
       ],
-      "@/content_scripts/*": [
-        "./pages/content_scripts/*"
+      "@/types/*": [
+        "./src/types/*"
       ],
       "@/components/*": [
         "./src/components/*"

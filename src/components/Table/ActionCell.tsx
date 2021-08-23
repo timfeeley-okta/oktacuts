@@ -1,9 +1,8 @@
 import React, { FC } from 'react'
 
 import { Column, Row } from 'react-table'
-import { useDeleteRuleMutation } from '@/state/Rules'
-import { Rule } from '@/state/Rules'
-import { XCircleIcon } from '@heroicons/react/outline'
+import { useDeleteRuleMutation } from 'src/state2/Rules'
+import { Rule } from 'src/state2/Rules'
 
 const ActionCell: FC<{
   value: any
@@ -18,7 +17,7 @@ const ActionCell: FC<{
   }
   return (
     <button onClick={onClick} className="h-full">
-      <XCircleIcon className="w-4 h-4 text-red-700" />
+      x
     </button>
   )
 }

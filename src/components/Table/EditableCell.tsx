@@ -5,9 +5,17 @@ import React, {
   useState,
   useEffect,
 } from 'react'
-import { useUpdateRuleMutation } from '../../state/Rules'
-import cx from 'classnames'
-const EditableCell: FC<any> = ({
+import { Rule, useUpdateRuleMutation } from '../../state2/Rules'
+import { Column, Row } from 'react-table'
+
+type Props = {
+  row: Row<Rule>
+  column: Column
+  value: any
+  className?: string
+}
+
+const EditableCell: FC<Props> = ({
   value: initialValue,
   row,
   column,
@@ -54,15 +62,10 @@ const EditableCell: FC<any> = ({
 
   return (
     <input
-      className={cx(
-        'w-full h-full px-4 py-3 font-mono outline-none focus:ring-inset focus:ring',
-        className
-      )}
       value={editableValue}
       onChange={onChange}
       onKeyDown={onKeyDown}
       onBlur={onBlur}
-      {...props}
     />
   )
 }

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
-import { useAddRuleMutation } from '@/state/Rules'
-import { useAppDispatch } from '@/state/index'
-import { setUI } from '@/state/UI'
+import { useAddRuleMutation } from 'src/state2/Rules'
+import { useAppDispatch } from 'src/state2/index'
+import { setUI } from 'src/state2/UI'
 
 const AddButton: FC<any> = ({ data }) => {
   const [addNewRule] = useAddRuleMutation()

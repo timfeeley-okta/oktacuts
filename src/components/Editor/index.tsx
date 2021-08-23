@@ -1,56 +1,44 @@
-import { useGetOktaAppsQuery } from 'src/state2/Apps'
-import {
-  useGetRulesQuery,
-  useUpdateUrlByShortcodeMutation,
-} from 'src/state2/Rules'
-import { Drawer } from 'baseui/drawer'
-import React, { useMemo } from 'react'
-
+import * as React from 'react'
 import { Input, SIZE } from 'baseui/input'
 import { TableBuilderColumn } from 'baseui/table-semantic'
-
+import {
+  useAddRuleMutation,
+  useDeleteRuleMutation,
+  useGetRulesQuery,
+  useUpdateRuleMutation,
+} from '@/state/data/index'
 import { EditableStatus, useEditable } from '@dcwither/react-editable'
-
+import { toaster, ToasterContainer } from 'baseui/toast'
 import { Button, KIND, SHAPE } from 'baseui/button'
 import { Delete } from 'baseui/icon'
-import { useAppDispatch, useAppSelector } from '../../state2/index'
+import { useAppDispatch } from '../../state2/index'
 import { setUI } from '../../state2/UI'
 import CommonTable from '../../styled/table'
-import { EditableCell } from '../Table'
 
-import { CommonInput } from '../../styled/input'
+const Editor = () => {
+  const { data, isLoading } = useGetRulesQuery()
+  const [updateExistingRule] = useUpdateRuleMutation()
+  const [deleteRule] = useDeleteRuleMutation()
+  const [addNewRule] = useAddRuleMutation()
 
-const SyncSheet = () => {
-  const { data, isLoading: appsAreLoading } = useGetOktaAppsQuery()
-  const { data: rulesData, isLoading: rulesAreLoading } = useGetRulesQuery()
-  const [updateAppShortcode] = useUpdateUrlByShortcodeMutation()
-  const isShowing = useAppSelector(({ uiState }) => uiState)
   const dispatch = useAppDispatch()
-  const closeSheet = () =>
-    dispatch(setUI({ uiElement: 'syncSheet', value: false }))
 
-  React.useEffect(() => {
-    console.log('Apps:', appsAreLoading)
-    console.log('Rules:', rulesAreLoading)
-  }, [appsAreLoading, rulesAreLoading])
-
-  const EditableCell = ({ id, field, value: currentValue, ...props }) => {
+  const EditableCell = ({ id, field, value: currentValue }) => {
     const { value, onCancel, onChange, onCommit } = useEditable({
       value: currentValue,
       onCommit: (message, string) => {
-        updateAppShortcode({
-          rule: {
-            url: message,
-            shortCode: string,
-          },
+        updateExistingRule({
+          rule: { id, [message]: string },
         })
           .unwrap()
           .then((data) => {
             console.log(data)
-            return data.url
           })
           .catch((error) => {
             console.log(error)
+            toaster.negative(<span>{error}</span>, {
+              autoHideDuration: 2500,
+            })
           })
       },
     })
@@ -68,7 +56,7 @@ const SyncSheet = () => {
     }
 
     return (
-      <CommonInput
+      <Input
         size={SIZE.compact}
         overrides={{
           Input: {
@@ -93,43 +81,51 @@ const SyncSheet = () => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         value={value}
-        {...props}
       />
     )
   }
 
   return (
-    <Drawer isOpen={isShowing.syncSheet} autoFocus onClose={closeSheet}>
+    <div>
+      <Button
+        onClick={() => {
+          dispatch(setUI({ uiElement: 'addModal', value: true }))
+        }}>
+        Add
+      </Button>
+      <Button
+        onClick={() => {
+          dispatch(setUI({ uiElement: 'syncSheet', value: true }))
+        }}>
+        Sync
+      </Button>
+
+      <ToasterContainer placement="topRight" />
       {data && (
-        <CommonTable isLoading={rulesAreLoading || appsAreLoading} data={data}>
+        <CommonTable isLoading={isLoading} data={data}>
           <TableBuilderColumn
             header="Shortcut"
-            overrides={{ TableHeadCell: { style: { width: '300px' } } }}>
-            {(row: OktaApp) => <span>{row.label}</span>}
+            overrides={{ TableHeadCell: { style: { width: '100px' } } }}>
+            {(row: Rule) => (
+              <EditableCell
+                id={row.id}
+                field="shortCode"
+                value={row.shortCode}
+              />
+            )}
           </TableBuilderColumn>
           <TableBuilderColumn
             header="URL"
-            overrides={{ TableHeadCell: { style: { width: '75px' } } }}>
-            {(row: OktaApp) => {
-              const appAssociation = rulesData.find(
-                (rule) => rule.url === row.linkUrl
-              )
-
-              return (
-                <EditableCell
-                  id={row.id}
-                  field={row.linkUrl}
-                  placeholder="No URL"
-                  value={appAssociation && appAssociation.shortCode}
-                />
-              )
-            }}
+            overrides={{ TableHeadCell: { style: { width: '300px' } } }}>
+            {(row: Rule) => (
+              <EditableCell id={row.id} field="url" value={row.url} />
+            )}
           </TableBuilderColumn>
           <TableBuilderColumn
-            overrides={{ TableHeadCell: { style: { width: '35px' } } }}>
-            {(row: OktaApp) => (
+            overrides={{ TableHeadCell: { style: { width: '50px' } } }}>
+            {(row: Rule) => (
               <Button
-                // onClick={() => deleteRule(row.id)}
+                onClick={() => deleteRule(row.id)}
                 kind={KIND.secondary}
                 size={SIZE.compact}
                 shape={SHAPE.pill}>
@@ -139,8 +135,8 @@ const SyncSheet = () => {
           </TableBuilderColumn>
         </CommonTable>
       )}
-    </Drawer>
+    </div>
   )
 }
 
-export default SyncSheet
+export default Editor

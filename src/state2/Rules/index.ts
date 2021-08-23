@@ -1,21 +1,12 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { fromChromeNativeRule, writeChromeRule } from './helpers'
-export type Rule = {
-  id: number
-  shortCode: string
-  url: string
-}
-export type ChromeNativeRule = chrome.declarativeNetRequest.Rule
+import {
+  fromChromeNativeRule,
+  writeChromeRule,
+  addChromeRule,
+  updateUrlByShortcode,
+} from './helpers'
 
-const writeQueryFn: any = async ({ rule }) => {
-  return writeChromeRule(rule)
-    .then((data) => {
-      return { data }
-    })
-    .catch((error) => {
-      return { error }
-    })
-}
+export type ChromeNativeRule = chrome.declarativeNetRequest.Rule
 
 export const rulesApi = createApi({
   baseQuery: fakeBaseQuery(),
@@ -39,14 +30,41 @@ export const rulesApi = createApi({
             ]
           : [{ type: 'Rule', id: 'LIST' }],
     }),
+    updateUrlByShortcode: build.mutation<Rule, { rule: Partial<Rule> }>({
+      queryFn: async ({ rule }) =>
+        updateUrlByShortcode(rule)
+          .then((data) => {
+            return { data }
+          })
+          .catch((error) => {
+            return { error }
+          }),
+      invalidatesTags: (result, error, { rule: { id } }) => [
+        { type: 'Rule', id },
+      ],
+    }),
     updateRule: build.mutation<Rule, { rule: Partial<Rule> }>({
-      queryFn: writeQueryFn,
+      queryFn: async ({ rule }) =>
+        writeChromeRule(rule)
+          .then((data) => {
+            return { data }
+          })
+          .catch((error) => {
+            return { error }
+          }),
       invalidatesTags: (result, error, { rule: { id } }) => [
         { type: 'Rule', id },
       ],
     }),
     addRule: build.mutation<Rule, { rule: Partial<Rule> }>({
-      queryFn: writeQueryFn,
+      queryFn: async ({ rule }) =>
+        addChromeRule(rule)
+          .then((data) => {
+            return { data }
+          })
+          .catch((error) => {
+            return { error }
+          }),
       invalidatesTags: () => [{ type: 'Rule', id: 'LIST' }],
     }),
     deleteRule: build.mutation<string, number>({
@@ -69,6 +87,7 @@ export const rulesApi = createApi({
 
 export const {
   useGetRulesQuery,
+  useUpdateUrlByShortcodeMutation,
   useAddRuleMutation,
   useUpdateRuleMutation,
   useDeleteRuleMutation,
