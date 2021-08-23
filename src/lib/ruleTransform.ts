@@ -10,6 +10,7 @@ export const toChromeNativeRule = (rule: Rule): ChromeNativeRule => {
     },
     condition: {
       urlFilter: toUrlFilterFormat(rule.shortCode),
+      resourceTypes: [chrome.declarativeNetRequest.ResourceType.MAIN_FRAME],
     },
   }
 }

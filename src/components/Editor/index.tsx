@@ -1,10 +1,9 @@
-import { useAppDispatch } from '@/state/index'
 import {
   useDeleteRuleMutation,
   useGetRulesQuery,
   useUpdateRuleMutation,
 } from '@/state/data'
-import { setUI } from '@/state/ui'
+
 import { EditableStatus, useEditable } from '@dcwither/react-editable'
 import { Button, KIND, SHAPE } from 'baseui/button'
 import { Delete } from 'baseui/icon'
@@ -19,8 +18,6 @@ const Editor = () => {
   const { data, isLoading } = useGetRulesQuery()
   const [updateExistingRule] = useUpdateRuleMutation()
   const [deleteRule] = useDeleteRuleMutation()
-
-  const dispatch = useAppDispatch()
 
   const EditableCell = ({ id, field, value: currentValue }) => {
     const { value, onCancel, onChange, onCommit } = useEditable({
@@ -86,19 +83,6 @@ const Editor = () => {
 
   return (
     <div>
-      <Button
-        onClick={() => {
-          dispatch(setUI({ uiElement: 'addModal', value: true }))
-        }}>
-        Add
-      </Button>
-      <Button
-        onClick={() => {
-          dispatch(setUI({ uiElement: 'syncSheet', value: true }))
-        }}>
-        Sync
-      </Button>
-
       <ToasterContainer placement="topRight" />
       {data && (
         <CommonTable isLoading={isLoading} data={data}>
@@ -115,7 +99,7 @@ const Editor = () => {
           </TableBuilderColumn>
           <TableBuilderColumn
             header="URL"
-            overrides={{ TableHeadCell: { style: { width: '300px' } } }}>
+            overrides={{ TableHeadCell: { style: { width: '400px' } } }}>
             {(row: Rule) => (
               <EditableCell id={row.id} field="url" value={row.url} />
             )}

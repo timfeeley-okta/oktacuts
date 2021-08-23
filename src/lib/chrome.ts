@@ -11,11 +11,14 @@ export const addChromeRule = async (rule: Partial<Rule>) => {
     try {
       chrome.declarativeNetRequest.getDynamicRules().then((rules) => {
         // Generate an ID one greater than the current max
+
         const id =
-          Math.max.apply(
-            Math,
-            rules.map((o) => o.id)
-          ) + 1
+          rules.length > 0
+            ? Math.max.apply(
+                Math,
+                rules.map((o) => o.id)
+              ) + 1
+            : 1
 
         writeChromeRule({
           id,

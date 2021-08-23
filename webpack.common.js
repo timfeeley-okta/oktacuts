@@ -7,12 +7,11 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 module.exports = {
   entry: {
     popup: './pages/popup/index.tsx',
-    content_script: './pages/content_scripts/index.ts',
   },
   module: {
     rules: [
       { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
-      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
     ],
   },
   resolve: {
