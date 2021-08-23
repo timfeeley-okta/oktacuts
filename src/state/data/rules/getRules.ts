@@ -13,6 +13,7 @@ export default function getRules(
             .sort(({ id: x }, { id: y }) => (x < y ? -1 : x > y ? 1 : 0)),
         }
       },
+
       providesTags: (result) =>
         result
           ? [

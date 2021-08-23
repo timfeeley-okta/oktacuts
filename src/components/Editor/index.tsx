@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { Input, SIZE } from 'baseui/input'
-import { TableBuilderColumn } from 'baseui/table-semantic'
+import { useAppDispatch } from '@/state/index'
 import {
   useDeleteRuleMutation,
   useGetRulesQuery,
   useUpdateRuleMutation,
-} from '@/state/data/index'
+} from '@/state/data'
+import { setUI } from '@/state/ui'
 import { EditableStatus, useEditable } from '@dcwither/react-editable'
-import { toaster, ToasterContainer } from 'baseui/toast'
 import { Button, KIND, SHAPE } from 'baseui/button'
 import { Delete } from 'baseui/icon'
+import { Input, SIZE } from 'baseui/input'
+import { TableBuilderColumn } from 'baseui/table-semantic'
+import { toaster, ToasterContainer } from 'baseui/toast'
+import * as React from 'react'
 
 import CommonTable from '../../styled/table'
-import { useAppDispatch } from '@/state/index'
-import { setUI } from '@/state/ui'
 
 const Editor = () => {
   const { data, isLoading } = useGetRulesQuery()

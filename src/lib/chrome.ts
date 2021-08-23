@@ -88,12 +88,22 @@ export const updateRuleByUrl = async ({ url, shortCode }: Partial<Rule>) => {
           .then((newRule) => resolve(newRule as Rule))
           .catch((reason) => reject(reason))
       } else {
+        if (
+          matchedRules.filter(
+            (rule) =>
+              rule.condition.urlFilter === toUrlFilterFormat(shortCode) &&
+              rule.id !== existingRule.id
+          ).length > 0
+        ) {
+          reject('That shortcode already exists')
+          return
+        }
+
         const newRule = {
           ...existingRule,
           shortCode,
           url,
         }
-
         chrome.declarativeNetRequest
           .updateDynamicRules({
             ...(shortCode && {

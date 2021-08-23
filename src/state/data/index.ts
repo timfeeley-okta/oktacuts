@@ -9,7 +9,7 @@ import {
   updateRuleByUrl,
 } from './rules'
 
-export const dataApi = createApi({
+const dataApi = createApi({
   tagTypes: ['App', 'Rule'],
   reducerPath: 'data',
   baseQuery: fetchBaseQuery({
@@ -26,6 +26,7 @@ export const dataApi = createApi({
   }),
 })
 
+export default dataApi
 export const {
   useGetOktaAppsQuery,
   useAddRuleMutation,

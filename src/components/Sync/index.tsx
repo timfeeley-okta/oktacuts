@@ -4,7 +4,7 @@ import {
   useUpdateRuleByUrlMutation,
 } from '@/state/data'
 import { Drawer } from 'baseui/drawer'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { SIZE } from 'baseui/input'
 import { TableBuilderColumn } from 'baseui/table-semantic'
@@ -20,38 +20,40 @@ import { CommonInput } from '../../styled/input'
 import { setUI } from '@/state/ui'
 
 const SyncSheet = () => {
-  const { data, isLoading: appsAreLoading } = useGetOktaAppsQuery()
-  const { data: rulesData, isLoading: rulesAreLoading } = useGetRulesQuery()
+  const { data } = useGetOktaAppsQuery()
+  const { data: rules, isLoading: rulesAreLoading } = useGetRulesQuery()
   const [updateAppShortcode] = useUpdateRuleByUrlMutation()
+
   const isShowing = useAppSelector(({ ui }) => ui)
   const dispatch = useAppDispatch()
 
   const closeSheet = () =>
     dispatch(setUI({ uiElement: 'syncSheet', value: false }))
 
-  React.useEffect(() => {
-    console.log('Apps:', appsAreLoading)
-    console.log('Rules:', rulesAreLoading)
-  }, [appsAreLoading, rulesAreLoading])
-
-  const EditableCell = ({ id, field, value: currentValue, ...props }) => {
-    const { value, onCancel, onChange, onCommit } = useEditable({
+  const EditableCell = ({
+    appId,
+    id,
+    field,
+    value: currentValue,
+    ...props
+  }) => {
+    const { status, value, onCancel, onChange, onCommit } = useEditable({
       value: currentValue,
-      onCommit: (message, string) => {
-        updateAppShortcode({
-          rule: {
-            url: message,
-            shortCode: string,
-          },
+      onCommit: async (message, string) => {
+        return new Promise((resolve, reject) => {
+          updateAppShortcode({
+            appId,
+            rule: {
+              url: message,
+              shortCode: string,
+            },
+          })
+            .unwrap()
+            .catch((error) => {
+              console.log(error)
+              reject(error)
+            })
         })
-          .unwrap()
-          .then((data) => {
-            console.log(data)
-            return data.url
-          })
-          .catch((error) => {
-            console.log(error)
-          })
       },
     })
 
@@ -101,7 +103,7 @@ const SyncSheet = () => {
   return (
     <Drawer isOpen={isShowing.syncSheet} autoFocus onClose={closeSheet}>
       {data && (
-        <CommonTable isLoading={rulesAreLoading || appsAreLoading} data={data}>
+        <CommonTable isLoading={rulesAreLoading} data={data}>
           <TableBuilderColumn
             header="Shortcut"
             overrides={{ TableHeadCell: { style: { width: '300px' } } }}>
@@ -111,12 +113,15 @@ const SyncSheet = () => {
             header="URL"
             overrides={{ TableHeadCell: { style: { width: '75px' } } }}>
             {(row: OktaApp) => {
-              const appAssociation = rulesData.find(
+              const appAssociation = rules.find(
                 (rule) => rule.url === row.linkUrl
               )
-
+              if (row.label === 'Smartsheet') {
+                console.log(row, appAssociation)
+              }
               return (
                 <EditableCell
+                  appId={row.id}
                   id={row.id}
                   field={row.linkUrl}
                   placeholder="No URL"
