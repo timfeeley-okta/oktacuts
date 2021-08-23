@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { FormControl } from 'baseui/form-control'
 import { Input } from 'baseui/input'
-import { Notification, KIND } from 'baseui/notification'
+
 import {
   Modal,
   ModalHeader,
@@ -9,14 +9,15 @@ import {
   ModalFooter,
   ModalButton,
 } from 'baseui/modal'
-import { useAppSelector } from '../../state2'
-import { useAppDispatch } from '../../state2/index'
-import { setUI } from '../../state2/UI'
+import { useAppDispatch, useAppSelector } from '@/state/index'
+import { useAddRuleMutation } from '@/state/data'
+import { setUI } from '@/state/ui'
+
 import { Grid, Cell, BEHAVIOR } from 'baseui/layout-grid'
-import { useAddRuleMutation } from '../../state2/Rules'
+
 const AddModal = () => {
   const dispatch = useAppDispatch()
-  const isShowing = useAppSelector(({ uiState }) => uiState)
+  const isShowing = useAppSelector(({ ui }) => ui)
   const [addNewRule] = useAddRuleMutation()
   const [issue, setIssue] = React.useState<string>()
   const addRule = (e: React.FormEvent) => {

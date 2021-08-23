@@ -1,31 +1,31 @@
-import { useGetOktaAppsQuery } from 'src/state2/Apps'
 import {
+  useGetOktaAppsQuery,
   useGetRulesQuery,
-  useUpdateUrlByShortcodeMutation,
-} from 'src/state2/Rules'
+  useUpdateRuleByUrlMutation,
+} from '@/state/data'
 import { Drawer } from 'baseui/drawer'
-import React, { useMemo } from 'react'
+import React from 'react'
 
-import { Input, SIZE } from 'baseui/input'
+import { SIZE } from 'baseui/input'
 import { TableBuilderColumn } from 'baseui/table-semantic'
 
 import { EditableStatus, useEditable } from '@dcwither/react-editable'
 
 import { Button, KIND, SHAPE } from 'baseui/button'
 import { Delete } from 'baseui/icon'
-import { useAppDispatch, useAppSelector } from '../../state2/index'
-import { setUI } from '../../state2/UI'
+import { useAppDispatch, useAppSelector } from '@/state/index'
 import CommonTable from '../../styled/table'
-import { EditableCell } from '../Table'
 
 import { CommonInput } from '../../styled/input'
+import { setUI } from '@/state/ui'
 
 const SyncSheet = () => {
   const { data, isLoading: appsAreLoading } = useGetOktaAppsQuery()
   const { data: rulesData, isLoading: rulesAreLoading } = useGetRulesQuery()
-  const [updateAppShortcode] = useUpdateUrlByShortcodeMutation()
-  const isShowing = useAppSelector(({ uiState }) => uiState)
+  const [updateAppShortcode] = useUpdateRuleByUrlMutation()
+  const isShowing = useAppSelector(({ ui }) => ui)
   const dispatch = useAppDispatch()
+
   const closeSheet = () =>
     dispatch(setUI({ uiElement: 'syncSheet', value: false }))
 

@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Input, SIZE } from 'baseui/input'
 import { TableBuilderColumn } from 'baseui/table-semantic'
 import {
-  useAddRuleMutation,
   useDeleteRuleMutation,
   useGetRulesQuery,
   useUpdateRuleMutation,
@@ -11,15 +10,15 @@ import { EditableStatus, useEditable } from '@dcwither/react-editable'
 import { toaster, ToasterContainer } from 'baseui/toast'
 import { Button, KIND, SHAPE } from 'baseui/button'
 import { Delete } from 'baseui/icon'
-import { useAppDispatch } from '../../state2/index'
-import { setUI } from '../../state2/UI'
+
 import CommonTable from '../../styled/table'
+import { useAppDispatch } from '@/state/index'
+import { setUI } from '@/state/ui'
 
 const Editor = () => {
   const { data, isLoading } = useGetRulesQuery()
   const [updateExistingRule] = useUpdateRuleMutation()
   const [deleteRule] = useDeleteRuleMutation()
-  const [addNewRule] = useAddRuleMutation()
 
   const dispatch = useAppDispatch()
 
