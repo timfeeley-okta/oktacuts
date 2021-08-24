@@ -5,17 +5,15 @@ import {
 } from '@/state/data'
 
 import { EditableStatus, useEditable } from '@dcwither/react-editable'
-import { Button, KIND, SHAPE } from 'baseui/button'
-import { Delete } from 'baseui/icon'
-import { Input, SIZE } from 'baseui/input'
-import { TableBuilderColumn } from 'baseui/table-semantic'
-import { toaster, ToasterContainer } from 'baseui/toast'
+
+import { TrashIcon } from '@heroicons/react/outline'
+import { useToast } from '@/components/Toast/ToastProvider'
 import * as React from 'react'
 
-import CommonTable from '../../styled/table'
-
 const Editor = () => {
-  const { data, isLoading } = useGetRulesQuery()
+  const { addToast } = useToast()
+
+  const { data } = useGetRulesQuery()
   const [updateExistingRule] = useUpdateRuleMutation()
   const [deleteRule] = useDeleteRuleMutation()
 
@@ -27,14 +25,8 @@ const Editor = () => {
           rule: { id, [message]: string },
         })
           .unwrap()
-          .then((data) => {
-            console.log(data)
-          })
           .catch((error) => {
-            console.log(error)
-            toaster.negative(<span>{error}</span>, {
-              autoHideDuration: 2500,
-            })
+            addToast(error)
           })
       },
     })
@@ -52,27 +44,11 @@ const Editor = () => {
     }
 
     return (
-      <Input
-        size={SIZE.compact}
-        overrides={{
-          Input: {
-            style: {
-              backgroundColor: 'white',
-              borderLeftWidth: '1px',
-              borderRightWidth: '1px',
-              borderTopWidth: '1px',
-              borderBottomWidth: '1px',
-            },
-          },
-          Root: {
-            style: {
-              borderLeftWidth: '1px',
-              borderRightWidth: '1px',
-              borderTopWidth: '1px',
-              borderBottomWidth: '1px',
-            },
-          },
-        }}
+      <input
+        type="text"
+        name="email"
+        id="email"
+        className="block w-full text-xs text-gray-700 border-transparent rounded-md focus:ring-indigo-500 focus:border-indigo-500"
         disabled={status === EditableStatus.COMMITTING}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -81,42 +57,69 @@ const Editor = () => {
     )
   }
 
+  const cols = [
+    {
+      id: 'shortCode',
+      title: 'Shortcut',
+      width: '7.5',
+    },
+    {
+      id: 'url',
+      title: 'URL',
+      width: '30',
+    },
+    {
+      id: 'actions',
+      title: '',
+      width: '0.5',
+    },
+  ]
+
   return (
     <div>
-      <ToasterContainer placement="topRight" />
       {data && (
-        <CommonTable isLoading={isLoading} data={data}>
-          <TableBuilderColumn
-            header="Shortcut"
-            overrides={{ TableHeadCell: { style: { width: '100px' } } }}>
-            {(row: Rule) => (
-              <EditableCell
-                id={row.id}
-                field="shortCode"
-                value={row.shortCode}
-              />
-            )}
-          </TableBuilderColumn>
-          <TableBuilderColumn
-            header="URL"
-            overrides={{ TableHeadCell: { style: { width: '400px' } } }}>
-            {(row: Rule) => (
-              <EditableCell id={row.id} field="url" value={row.url} />
-            )}
-          </TableBuilderColumn>
-          <TableBuilderColumn
-            overrides={{ TableHeadCell: { style: { width: '50px' } } }}>
-            {(row: Rule) => (
-              <Button
-                onClick={() => deleteRule(row.id)}
-                kind={KIND.secondary}
-                size={SIZE.compact}
-                shape={SHAPE.pill}>
-                <Delete />
-              </Button>
-            )}
-          </TableBuilderColumn>
-        </CommonTable>
+        <table className="divide-y divide-gray-200">
+          <thead>
+            <tr>
+              {cols.map((header) => (
+                <th
+                  key={'th_' + header.id}
+                  scope="col"
+                  style={{
+                    width: header.width + 'rem',
+                  }}
+                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  {header.title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, index) => (
+              <tr key={'tr_' + row.id + '_' + index}>
+                <td className="px-4 py-2">
+                  <EditableCell
+                    id={row.id}
+                    field="shortCode"
+                    value={row.shortCode}
+                  />
+                </td>
+                <td className="px-4 py-2">
+                  <EditableCell id={row.id} field="url" value={row.url} />
+                </td>
+
+                <td className="">
+                  <button
+                    type="button"
+                    onClick={() => deleteRule(row.id)}
+                    className="inline-flex items-center border border-transparent">
+                    <TrashIcon className="-ml-0.5 mr-2 h-4 w-4 mt-0.5" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   )

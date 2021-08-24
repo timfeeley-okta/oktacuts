@@ -14,12 +14,15 @@ import { useAddRuleMutation } from '@/state/data'
 import { setUI } from '@/state/ui'
 
 import { Grid, Cell, BEHAVIOR } from 'baseui/layout-grid'
+import { useToast } from '@/components/Toast/ToastProvider'
 
 const AddModal = () => {
   const dispatch = useAppDispatch()
   const isShowing = useAppSelector(({ ui }) => ui)
   const [addNewRule] = useAddRuleMutation()
   const [issue, setIssue] = React.useState<string>()
+  const { addToast } = useToast()
+
   const addRule = (e: React.FormEvent) => {
     e.preventDefault()
     addNewRule({
@@ -29,8 +32,7 @@ const AddModal = () => {
       },
     })
       .unwrap()
-      .then((r) => console.log('Success', r))
-      .catch((r) => setIssue)
+      .catch((r) => addToast(r))
     return false
   }
 

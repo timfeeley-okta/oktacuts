@@ -18,17 +18,22 @@ export default function updateRuleByUrl(
             return { data }
           })
           .catch((error) => {
-            console.info('ERRRRRR', error)
             return { error }
           }),
       onQueryStarted: async (
-        { rule: { shortCode, url, id } },
+        { rule: { id, shortCode, url } },
         { dispatch, queryFulfilled }
       ) => {
         const patchResult = dispatch(
           api.util.updateQueryData('getRules', void 0, (draft) => {
             const newObj = draft.find((row) => row.url === url)
-            newObj.shortCode = shortCode
+            if (newObj) {
+              // edit existing rule
+              newObj.shortCode = shortCode
+            } else {
+              // adding a new rule
+              draft.push({ id, shortCode, url })
+            }
           })
         )
 
@@ -38,7 +43,7 @@ export default function updateRuleByUrl(
           patchResult.undo()
         }
       },
-      invalidatesTags: (result, error, { appId, rule: { id } }) => [
+      invalidatesTags: (result, error, { rule: { id } }) => [
         { type: 'Rule', id },
       ],
     }),

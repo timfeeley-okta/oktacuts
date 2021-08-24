@@ -1,25 +1,20 @@
+import 'tailwindcss/tailwind.css'
+
+import Popup from '@/components/Popup'
+import { store } from '@/state/index'
+
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-
-import Popup from '@/components/Popup'
-
-import { Client as Styletron } from 'styletron-engine-atomic'
-import { Provider as StyletronProvider } from 'styletron-react'
-import { LightTheme, BaseProvider } from 'baseui'
-import { store } from '@/state/index'
-
-const engine = new Styletron()
+import ToastProvider from '@/components/Toast/ToastProvider'
 
 render(
   <React.StrictMode>
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-        <Provider store={store}>
-          <Popup />
-        </Provider>
-      </BaseProvider>
-    </StyletronProvider>
+    <Provider store={store}>
+      <ToastProvider>
+        <Popup />
+      </ToastProvider>
+    </Provider>
   </React.StrictMode>,
   window.document.querySelector('#app-container')
 )
