@@ -18,3 +18,13 @@ render(
   </React.StrictMode>,
   window.document.querySelector('#app-container')
 )
+if (module && module.hot) {
+  module.hot.accept((err) => {
+    console.error('HMR accept() error: ' + err)
+  })
+  module.hot.addStatusHandler((status) => {
+    if (status === 'apply') {
+      console.log('HMR: update applied')
+    }
+  })
+}

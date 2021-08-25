@@ -10,13 +10,15 @@ export const store = configureStore({
     [dataApi.reducerPath]: dataApi.reducer,
     ui,
   },
-  middleware: (getDefaultMiddleware) =>
+
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(dataApi.middleware),
 })
 
 setupListeners(store.dispatch)
 
 export type RootState = ReturnType<typeof store.getState>
+
 export type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()

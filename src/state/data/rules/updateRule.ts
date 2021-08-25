@@ -9,10 +9,10 @@ export default function updateRule(
     updateRule: build.mutation<Rule, { rule: Partial<Rule> }>({
       queryFn: async ({ rule }) =>
         writeChromeRule(rule)
-          .then((data) => {
+          .then(data => {
             return { data }
           })
-          .catch((error) => {
+          .catch(error => {
             return { error }
           }),
       invalidatesTags: (result, error, { rule: { id } }) => [

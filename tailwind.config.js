@@ -8,6 +8,13 @@ module.exports = {
 
   theme: {
     extend: {
+      colors: {
+        oktaBlue: '#00297A',
+        oktaMidGrey: '#AAAAB4',
+      },
+      spacing: {
+        21: '5.5rem',
+      },
       height: {
         120: '30rem',
       },
@@ -19,5 +26,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 }

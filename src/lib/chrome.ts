@@ -9,14 +9,15 @@ import { re_js_rfc3986_URI } from './validation'
 export const addChromeRule = async (rule: Partial<Rule>) => {
   return new Promise<Rule>((resolve, reject) => {
     try {
-      chrome.declarativeNetRequest.getDynamicRules().then((rules) => {
+      chrome.declarativeNetRequest.getDynamicRules().then(rules => {
         // Generate an ID one greater than the current max
 
         const id =
           rules.length > 0
-            ? Math.max.apply(
+            ? // eslint-disable-next-line prefer-spread
+              Math.max.apply(
                 Math,
-                rules.map((o) => o.id)
+                rules.map(o => o.id)
               ) + 1
             : 1
 
@@ -24,8 +25,8 @@ export const addChromeRule = async (rule: Partial<Rule>) => {
           id,
           ...rule,
         })
-          .then((newRule) => resolve(newRule as Rule))
-          .catch((reason) => reject(reason))
+          .then(newRule => resolve(newRule as Rule))
+          .catch(reason => reject(reason))
       })
     } catch (err) {
       reject(err)
@@ -39,9 +40,9 @@ export const writeChromeRule = async (rule: Partial<Rule>) => {
       reject('Please enter a valid URL (including `http://`)')
     }
 
-    chrome.declarativeNetRequest.getDynamicRules().then((matchedRules) => {
+    chrome.declarativeNetRequest.getDynamicRules().then(matchedRules => {
       matchedRules.filter(
-        (match) =>
+        match =>
           // existing rules with the same shortCode
           (match.condition.urlFilter === toUrlFilterFormat(rule.shortCode) &&
             match.id !== rule.id) ||
@@ -50,7 +51,7 @@ export const writeChromeRule = async (rule: Partial<Rule>) => {
       )
 
       const duplicateRules = matchedRules.filter(
-        (match) =>
+        match =>
           match.condition.urlFilter === toUrlFilterFormat(rule.shortCode) &&
           match.id !== rule.id
       )
@@ -59,7 +60,7 @@ export const writeChromeRule = async (rule: Partial<Rule>) => {
         return
       }
 
-      const existingRule = matchedRules.find((match) => match.id === rule.id)
+      const existingRule = matchedRules.find(match => match.id === rule.id)
       const newRule = {
         ...(existingRule && fromChromeNativeRule(existingRule)),
         ...rule,
@@ -71,16 +72,16 @@ export const writeChromeRule = async (rule: Partial<Rule>) => {
           ...(existingRule && { removeRuleIds: [existingRule.id] }),
         })
         .then(() => resolve(newRule as Rule))
-        .catch((reason) => reject(reason.message))
+        .catch(reason => reject(reason.message))
     })
   })
 }
 
 export const updateRuleByUrl = async ({ url, shortCode }: Partial<Rule>) => {
   return new Promise<Rule>((resolve, reject) => {
-    chrome.declarativeNetRequest.getDynamicRules().then((matchedRules) => {
+    chrome.declarativeNetRequest.getDynamicRules().then(matchedRules => {
       const existingRule = matchedRules.find(
-        (match) => match.action.redirect.url === url
+        match => match.action.redirect.url === url
       )
 
       if (!existingRule) {
@@ -88,12 +89,12 @@ export const updateRuleByUrl = async ({ url, shortCode }: Partial<Rule>) => {
           shortCode,
           url,
         })
-          .then((newRule) => resolve(newRule as Rule))
-          .catch((reason) => reject(reason))
+          .then(newRule => resolve(newRule as Rule))
+          .catch(reason => reject(reason))
       } else {
         if (
           matchedRules.filter(
-            (rule) =>
+            rule =>
               rule.condition.urlFilter === toUrlFilterFormat(shortCode) &&
               rule.id !== existingRule.id
           ).length > 0
@@ -115,7 +116,7 @@ export const updateRuleByUrl = async ({ url, shortCode }: Partial<Rule>) => {
             ...(existingRule && { removeRuleIds: [existingRule.id] }),
           })
           .then(() => resolve(newRule as Rule))
-          .catch((reason) => reject(reason.message))
+          .catch(reason => reject(reason.message))
       }
     })
   })

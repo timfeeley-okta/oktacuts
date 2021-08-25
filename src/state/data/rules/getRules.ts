@@ -14,7 +14,7 @@ export default function getRules(
         }
       },
 
-      providesTags: (result) =>
+      providesTags: result =>
         result
           ? [
               ...result.map(({ id }) => ({ type: 'Rule', id } as const)),

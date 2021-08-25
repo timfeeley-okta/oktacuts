@@ -14,9 +14,8 @@ const dataApi = createApi({
   reducerPath: 'data',
   baseQuery: fetchBaseQuery({
     method: 'GET',
-    baseUrl: 'https://okta.okta.com/api/v1/users/me/appLinks',
   }),
-  endpoints: (build) => ({
+  endpoints: build => ({
     ...getOktaApps(build),
     ...addRule(build),
     ...getRules(build),
@@ -29,6 +28,7 @@ const dataApi = createApi({
 export default dataApi
 export const {
   useGetOktaAppsQuery,
+  useLazyGetOktaAppsQuery,
   useAddRuleMutation,
   useDeleteRuleMutation,
   useGetRulesQuery,

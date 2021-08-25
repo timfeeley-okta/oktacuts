@@ -5,7 +5,7 @@ export default function deleteRule(
 ) {
   return {
     deleteRule: build.mutation<string, number>({
-      queryFn: async (id) => {
+      queryFn: async id => {
         return await chrome.declarativeNetRequest
           .updateDynamicRules({
             removeRuleIds: [id],

@@ -14,10 +14,10 @@ export default function updateRuleByUrl(
     >({
       queryFn: async ({ rule }) =>
         updateRuleFunction(rule)
-          .then((data) => {
+          .then(data => {
             return { data }
           })
-          .catch((error) => {
+          .catch(error => {
             return { error }
           }),
       onQueryStarted: async (
@@ -25,8 +25,8 @@ export default function updateRuleByUrl(
         { dispatch, queryFulfilled }
       ) => {
         const patchResult = dispatch(
-          api.util.updateQueryData('getRules', void 0, (draft) => {
-            const newObj = draft.find((row) => row.url === url)
+          api.util.updateQueryData('getRules', void 0, draft => {
+            const newObj = draft.find(row => row.url === url)
             if (newObj) {
               // edit existing rule
               newObj.shortCode = shortCode

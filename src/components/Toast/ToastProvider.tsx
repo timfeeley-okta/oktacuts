@@ -29,8 +29,8 @@ const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([])
 
   const addToast = useCallback(
-    (content) => {
-      setToasts((toasts) => [
+    content => {
+      setToasts(toasts => [
         ...toasts,
         {
           id: new Date().valueOf(),
@@ -42,8 +42,8 @@ const ToastProvider = ({ children }) => {
   )
 
   const removeToast = useCallback(
-    (id) => {
-      setToasts((toasts) => toasts.filter((t) => t.id !== id))
+    id => {
+      setToasts(toasts => toasts.filter(t => t.id !== id))
     },
     [setToasts]
   )

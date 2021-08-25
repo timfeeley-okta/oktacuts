@@ -12,10 +12,14 @@ module.exports = {
     rules: [
       { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
       { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        loader: 'file-loader',
+      },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.css'],
+    extensions: ['.tsx', '.ts', '.js', '.css', '.png'],
     plugins: [new TsconfigPathsPlugin()],
   },
   plugins: [
@@ -30,7 +34,8 @@ module.exports = {
   ],
   output: {
     filename: '[name].js',
-
     path: path.resolve(__dirname, 'dist'),
+    hotUpdateChunkFilename: 'hot/hot-update.js',
+    hotUpdateMainFilename: 'hot/hot-update.json',
   },
 }
