@@ -23,7 +23,7 @@ jobs:
       - name: Compress into one thing
         uses: TonyBogdanov/zip@1.0
         with:
-          args: zip -qq -r ./${{ github.event.release.tag_name }}.zip build -j
+          args: zip -qq -r ./${{ github.event.release.tag_name }}.zip dist -j
 
       - name: Attach binaries to release
         uses: svenstaro/upload-release-action@v2
