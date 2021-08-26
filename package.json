@@ -1,4 +1,12 @@
 {
+  "name": "oktacuts",
+  "version": "2.0",
+  "description": "A URL shortener with Okta superpowers. Not affiliated with Okta.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timfeeley-okta/oktacuts.git"
+  },
   "dependencies": {
     "@dcwither/react-editable": "^0.3.1",
     "@headlessui/react": "^1.4.0",
@@ -54,8 +62,6 @@
     "webpack-dev-server": "^4.0.0",
     "webpack-merge": "^5.8.0"
   },
-  "license": "MIT",
-  "name": "ok2",
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack.prod.js",
     "start": "webpack serve --config webpack.dev.js"

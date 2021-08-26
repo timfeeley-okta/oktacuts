@@ -12,7 +12,7 @@ const Popup: React.FC = () => {
   const dispatch = useAppDispatch()
 
   return (
-    <main className="w-152 h-120">
+    <main className="w-152 h-142">
       <header className="flex items-center justify-between p-4 bg-gray-50">
         <div className="flex items-center">
           <h2 className="text-2xl font-medium leading-7 text-gray-900">
