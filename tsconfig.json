@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES6",
     "lib": [
       "dom",
       "dom.iterable",
+      "ES6",
       "esnext"
     ],
     "allowJs": false,
@@ -18,13 +19,32 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": false,
-    "jsx": "react"
+    "jsx": "react",
+    "paths": {
+      "@/state/*": [
+        "./src/state/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ],
+      "@/pages/*": [
+        "./pages/*"
+      ],
+      "@/types/*": [
+        "./src/types/*"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ]
+    }
   },
   "include": [
     "src",
+    "pages"
   ],
   "exclude": [
-    "build",
+    "dist",
+    "assets",
     "node_modules"
   ]
 }

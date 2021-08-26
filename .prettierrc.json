@@ -1,6 +1,8 @@
 {
-  "arrowParens": "always",
+  "arrowParens": "avoid",
   "jsxBracketSameLine": true,
+  "printWidth": 80,
+  "quoteProps": "as-needed",
   "semi": false,
   "singleQuote": true,
   "trailingComma": "es5"

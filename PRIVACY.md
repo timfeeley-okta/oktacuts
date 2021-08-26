@@ -1,6 +1,6 @@
 # Privacy Policy
 
-This Chrome Extension is provided by Tim Feeley at no cost and is intended for use as is. It is not officially supported by Tim, or any companies with which is is affiliated. It is unaffiliated with Okta.
+This Chrome Extension is provided by Tim Feeley at no cost and is intended for use as is. It is not officially supported by Tim, or any companies with which Tim has ever been affiliated with. It is unaffiliated with Okta. So don't go knocking on their door for support!
 
 This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information when you use the Extension.
 
@@ -10,16 +10,16 @@ If you choose to use the Extension, then you agree to the collection and use of 
 
 This extension does not store or log any data. If you choose to use the Okta Sync function, an API call is made to retreive your information using an existing signed-in session. This app does not log when you do that, nor does it log when you use redirects.
 
-Note that any calls made to Okta services are subject to their privacy policy: https://www.okta.com/privacy-policy/
+Note that any calls made to Okta services are subject to their privacy policy: <https://www.okta.com/privacy-policy/>
 
 ## Service Providers
 
 We may employ third-party companies and individuals due to the following reasons:
 
-- To facilitate the Extension;
-- To provide the Service on our behalf;
-- To perform Service-related services; or
-- To assist us in analyzing how the Extension is used.
+* To facilitate the Extension;
+* To provide the Service on our behalf;
+* To perform Service-related services; or
+* To assist us in analyzing how the Extension is used.
 
 ## Security
 
