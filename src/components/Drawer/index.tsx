@@ -25,7 +25,7 @@ const Drawer: React.FC<Props> = ({ show, onClose, children }) => {
         aria-hidden="true"
         afterEnter={() => childRef.current.querySelectorAll('input')[0].focus()}
       />
-      <div className="fixed inset-y-0 right-0 flex max-w-xl pl-10">
+      <div className="fixed inset-y-0 right-0 flex max-w-xl">
         <Transition
           show={show}
           onKeyDown={e => {
