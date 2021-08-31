@@ -28,6 +28,10 @@ const TableEditableCell = ({
         .catch(error => addToast(error)),
   })
 
+  const handleBlur = () => {
+    onCommit(field)
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       onCommit(field)
@@ -46,6 +50,7 @@ const TableEditableCell = ({
       className="block w-full text-xs text-gray-700 border-transparent rounded-md bg-gray-50 focus:ring-indigo-500 focus:border-indigo-500"
       disabled={status === EditableStatus.COMMITTING}
       onChange={handleChange}
+      onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       value={value}
       {...props}

@@ -46,7 +46,7 @@ const Drawer: React.FC<Props> = ({ show, onClose, children }) => {
             <button
               type="button"
               onClick={onClose}
-              className="absolute text-gray-700 rounded-md top-6 right-6 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+              className="absolute w-6 h-6 text-gray-700 rounded-md top-6 right-6 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
               <span className="sr-only">Close</span>
               <XIcon className="w-6 h-6" />
             </button>
